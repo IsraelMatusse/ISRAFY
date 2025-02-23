@@ -1,79 +1,106 @@
-import { Link } from "expo-router";
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { List, Switch, Button, Divider } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Switch,
+  StyleSheet,
+} from "react-native";
+import { Text } from "react-native";
+import {
+  Bell,
+  ChevronRight,
+  Download,
+  HardDrive,
+  Lock,
+  LogOut,
+  Music2,
+  User,
+  Volume2,
+} from "lucide-react-native";
 import NavBar from "@/components/NavBar";
 
-export default function ConfigurationScreen() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true);
-  const navigation = useNavigation();
-
+export default function SettingsScreen() {
   return (
     <>
       <View style={styles.container}>
-        {/* Account Section */}
-        <List.Section title="Conta">
-          <List.Item
-            title="Perfil"
-            description="Gerencie seu perfil"
-            left={() => <Icon name="account-circle" size={24} color="#555" />}
-            onPress={() => navigation.navigate("profile")}
-          />
-
-          <List.Item
-            title="Alterar senha"
-            description="Atualize sua senha"
-            left={() => <Icon name="lock-reset" size={24} color="#555" />}
-            onPress={() => console.log("Alterar senha")}
-          />
-        </List.Section>
-
-        <Divider />
-
-        {/* Preferences Section */}
-        <List.Section title="Preferências">
-          <List.Item
-            title="Modo escuro"
-            description={isDarkMode ? "Ativado" : "Desativado"}
-            left={() => <Icon name="theme-light-dark" size={24} color="#555" />}
-            right={() => (
-              <Switch
-                value={isDarkMode}
-                onValueChange={() => setIsDarkMode(!isDarkMode)}
-              />
-            )}
-          />
-          <List.Item
-            title="Notificações"
-            description={isNotificationsEnabled ? "Ativadas" : "Desativadas"}
-            left={() => <Icon name="bell" size={24} color="#555" />}
-            right={() => (
-              <Switch
-                value={isNotificationsEnabled}
-                onValueChange={() =>
-                  setIsNotificationsEnabled(!isNotificationsEnabled)
-                }
-              />
-            )}
-          />
-        </List.Section>
-
-        <Divider />
-
-        {/* Logout Button */}
-        <View style={styles.logoutContainer}>
-          <Button
-            mode="contained"
-            icon="logout"
-            onPress={() => console.log("Logout")}
-            style={styles.logoutButton}
-          >
-            Sair da conta
-          </Button>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Configurações</Text>
         </View>
+
+        <ScrollView>
+          <View style={styles.content}>
+            <View style={styles.section}>
+              <Text style={styles.sectionHeader}>Conta</Text>
+              <TouchableOpacity style={styles.menuItem}>
+                <User color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Perfil</Text>
+                </View>
+                <ChevronRight color="#9ca3af" size={20} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.menuItem}>
+                <Lock color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Privacidade</Text>
+                </View>
+                <ChevronRight color="#9ca3af" size={20} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionHeader}>App</Text>
+              <TouchableOpacity style={styles.menuItem}>
+                <Music2 color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Qualidade do áudio</Text>
+                  <Text style={styles.menuItemSubtext}>Alta</Text>
+                </View>
+                <ChevronRight color="#9ca3af" size={20} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.menuItem}>
+                <Download color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Downloads</Text>
+                  <Text style={styles.menuItemSubtext}>
+                    12 músicas • 284 MB
+                  </Text>
+                </View>
+                <ChevronRight color="#9ca3af" size={20} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.menuItem}>
+                <HardDrive color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Armazenamento</Text>
+                  <Text style={styles.menuItemSubtext}>2.4 GB disponível</Text>
+                </View>
+                <ChevronRight color="#9ca3af" size={20} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionHeader}>Notificações</Text>
+              <View style={styles.menuItem}>
+                <Bell color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Notificações push</Text>
+                </View>
+                <Switch />
+              </View>
+              <View style={styles.menuItem}>
+                <Volume2 color="white" size={24} />
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>Sons do app</Text>
+                </View>
+                <Switch />
+              </View>
+            </View>
+
+            <TouchableOpacity style={styles.logoutButton}>
+              <LogOut color="#ef4444" size={24} />
+              <Text style={styles.logoutText}>Sair</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
       <NavBar />
     </>
@@ -83,15 +110,57 @@ export default function ConfigurationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F9FA",
-    padding: 20,
+    backgroundColor: "#000",
   },
-  logoutContainer: {
-    marginTop: 20,
+  header: {
+    padding: 16,
+  },
+  headerTitle: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  content: {
+    padding: 16,
+  },
+  section: {
+    backgroundColor: "#18181b",
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  sectionHeader: {
+    color: "#fff",
+    fontWeight: "600",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#27272a",
+  },
+  menuItem: {
+    flexDirection: "row",
     alignItems: "center",
+    padding: 16,
+    gap: 12,
+  },
+  menuItemContent: {
+    flex: 1,
+  },
+  menuItemText: {
+    color: "#fff",
+  },
+  menuItemSubtext: {
+    color: "#9ca3af",
   },
   logoutButton: {
-    width: "100%",
-    backgroundColor: "#D32F2F",
+    backgroundColor: "#18181b",
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  logoutText: {
+    color: "#ef4444",
+    fontWeight: "500",
   },
 });
